@@ -93,18 +93,15 @@ function initStory() {
 }
 
 function btnClicked(elem, type) {
-	switch (type) {
-		case 'a':
-			selectedWords[types.indexOf('a')] = elem.innerHTML
-			break
-		case 'n':
+	let tempWords = selectedWords
 
-			selectedWords[types.indexOf('n')] = elem.innerHTML 
+	for (let i = 0; i < tempWords.length; i++) {
+		if (types[i] == type && tempWords[i] == undefined) {
+			selectedWords[i] = elem.innerHTML
 			break
-		case 'v':
-			selectedWords[types.indexOf('v')] = elem.innerHTML
-			break
+		}
 	}
+
 	updateView()
 }
 
