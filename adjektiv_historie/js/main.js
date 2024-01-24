@@ -116,18 +116,12 @@ function createButtons(list, type) {
 function updateStory() {
 	let html = ``
 	let i = 0
-	chosenStory.split(/@|£|\|/g).forEach((word) => {
+	let split = chosenStory.split(/@|£|\|/g)
+	split.forEach((word) => {
 		html += word
-		switch (types[i]) {
-			case 'a':
-				html += selectedWords[i] == undefined ? blank : selectedWords[i]
-				break
-			case 'n':
-				html += selectedWords[i] == undefined ? blank : selectedWords[i]
-				break
-			case 'v':
-				html += selectedWords[i] == undefined ? blank : selectedWords[i]
-				break
+		// don't append blanks if we're at the end
+		if (i != split.length - 1) {
+			html += selectedWords[i] == undefined ? blank : selectedWords[i]
 		}
 		i++
 	})
