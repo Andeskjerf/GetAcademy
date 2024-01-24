@@ -80,18 +80,27 @@ function initStory() {
 		selectedWords.fill(undefined)
 		Object.seal(selectedWords)
 	}
-	console.log(selectedWords)
 }
 
-function click(type) {
-	console.log("hey hå")
-	console.log(type)
+function btnClicked(elem, type) {
+	switch (type) {
+		case 'a':
+			selectedWords[types.indexOf('a')] = elem.innerHTML
+			break
+		case 'n':
+			selectedWords[types.indexOf('n')] = elem.innerHTML 
+			break
+		case 'v':
+			selectedWords[types.indexOf('v')] = elem.innerHTML
+			break
+	}
+	updateView()
 }
 
 function createButtons(list, type) {
 	let html = ``
 	for (let i = 0; i < list.length; i++) {
-		html += `<button onclick="click('${type}')">${list[i]}</button>`
+		html += `<button onclick="btnClicked(this, '${type}')">${list[i]}</button>`
 	}
 	return html
 }
@@ -100,7 +109,6 @@ function updateStory() {
 	let html = ``
 	let i = 0
 	chosenStory.split(/@|£|\|/g).forEach((word) => {
-		console.log(word)
 		html += word
 		switch (types[i]) {
 			case 'a':
@@ -123,19 +131,13 @@ function updateView() {
     <div id="story">${updateStory()}</div>
       <div id="controls">
         <div id="noun_c">
-					<div id="noun_list">
-						${createButtons(nouns, "n")}
-					</div>
+					${createButtons(nouns, "n")}
         </div>
         <div id="verb_c">
-					<div id="verb_list">
-						${createButtons(verbs, "v")}
-					</div>
+					${createButtons(verbs, "v")}
         </div>
         <div id="adj_c">
-					<div id="adj_list">
-						${createButtons(adjectives, "a")}
-					</div>
+					${createButtons(adjectives, "a")}
         </div>
       </div>
 	`
