@@ -93,10 +93,8 @@ function initStory() {
 }
 
 function btnClicked(elem, type) {
-	let tempWords = selectedWords
-
-	for (let i = 0; i < tempWords.length; i++) {
-		if (types[i] == type && tempWords[i] == undefined) {
+	for (let i = 0; i < selectedWords.length; i++) {
+		if (types[i] == type && selectedWords[i] == undefined) {
 			selectedWords[i] = elem.innerHTML
 			break
 		}
