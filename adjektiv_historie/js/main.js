@@ -9,7 +9,6 @@ const story = [
 ]
 
 // which story are we using?
-let storyIndex
 let chosenStory
 
 // initialized as a fixed array once 'types' is initialized
@@ -68,8 +67,7 @@ function init() {
 }
 
 function initStory() {
-	storyIndex = getRandomRange(0, story.length - 1)
-	chosenStory = story[storyIndex]
+	chosenStory = story[getRandomRange(0, story.length - 1)]
 
 	// we need to figure out where the placeholders are and store their index
 	for (let i = 0; i < chosenStory.length; i++) {
