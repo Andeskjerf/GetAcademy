@@ -12,7 +12,11 @@ const story = [
 let storyIndex
 let chosenStory
 
+// initialized as a fixed array once 'types' is initialized
+// same length as 'types'; contains the words we want to replace placeholders with
 let selectedWords
+
+// what type of word exists at that index?
 let types = []
 
 const adjectives = [
@@ -66,15 +70,23 @@ function init() {
 function initStory() {
 	storyIndex = getRandomRange(0, story.length - 1)
 	chosenStory = story[storyIndex]
+
+	// we need to figure out where the placeholders are and store their index
 	for (let i = 0; i < chosenStory.length; i++) {
-		if (chosenStory[i] === '@') {
-			types.push('a')
-		} else if (chosenStory[i] === '£') {
-			types.push('v')
-		} else if (chosenStory[i] === '|') {
-			types.push('n')
+		switch (chosenStory[i]) {
+			case '@':
+				types.push('a')
+				break
+			case '£':
+				types.push('v')
+				break
+			case '|':
+				types.push('n')
+				break
 		}
 	}
+
+	// finally initialize now that we know how many placeholders exists
 	selectedWords = new Array(types.length)
 	if (Object.seal) {
 		selectedWords.fill(undefined)
@@ -88,6 +100,7 @@ function btnClicked(elem, type) {
 			selectedWords[types.indexOf('a')] = elem.innerHTML
 			break
 		case 'n':
+
 			selectedWords[types.indexOf('n')] = elem.innerHTML 
 			break
 		case 'v':
