@@ -1,0 +1,51 @@
+<html>
+	<script>
+		var time = 0;
+		var timer = null;
+		var e_time;
+		var e_times;
+	
+		function onload() {
+			e_time = document.getElementById("timer");
+			e_times = document.getElementById("times");
+		}
+
+		function format_time(time) {
+				var minutes = Math.floor(time / 60).toString();
+				var seconds = Math.floor(time % 60).toString();
+				return minutes.padStart(2, "0") + ":" + seconds.padStart(2, "0");
+		}
+
+		function start_timer() {
+			time = 0;
+			timer = setInterval(function() {
+				time++;
+				e_time.innerHTML = format_time(time);
+			}, 1000);
+		}
+
+		function stop_timer() {
+			clearInterval(timer);	
+			var final_time = document.createElement("li");
+			final_time.innerHTML = format_time(time);
+			e_time.innerHTML = "00:00";
+			e_times.appendChild(final_time);
+			start_timer();
+		}
+
+		function reset_timer() {
+			clearInterval(timer);
+			e_time.innerHTML = "00:00";
+			time = 0;
+		}
+	</script>
+	<body onload="onload()">
+		<p id="timer">00:00</p>
+		<div>
+			<button id="start" onclick="start_timer()">Start</button>
+			<button id="pause" onclick="stop_timer()">Runde</button>
+			<button id="stop" onclick="reset_timer()">Stopp</button>
+		</div>
+		<div id="times" />
+	</body>
+</html>

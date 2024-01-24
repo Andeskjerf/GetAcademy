@@ -1,0 +1,7 @@
+#lightbulb {
+	border-radius: 50%;
+	background-color: grey;
+	width: 100px;
+	height: 100px;
+	box-shadow: black 0px 0px 10px;
+}

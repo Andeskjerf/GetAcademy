@@ -1,0 +1,24 @@
+#light_container {
+	display: inline-block;
+	background-color: black;
+	border-radius: 5%;
+}
+
+#light_container>* {
+	margin: 12px;
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
+
+#light_red {
+	background-color: red;
+}
+
+#light_yellow {
+	background-color: yellow;
+}
+
+#light_green {
+	background-color: green;
+}
