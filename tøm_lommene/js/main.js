@@ -11,7 +11,7 @@ function emptyPockets() {
 
 function view() {
 	document.getElementById('app').innerHTML = `
-		<button onclick="emptyPockets()">Tøm lommer</button>
+		<button onclick="emptyPockets()">${emptiedPocketsResult.length == 0 ? "Tøm lommene" : "😳"}</button>
 		${emptiedPocketsResult}
 	`
 }
