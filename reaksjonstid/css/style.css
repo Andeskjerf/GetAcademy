@@ -1,0 +1,16 @@
+.lamp {
+	border-radius: 50%;
+	width: 25px;
+	height: 25px;
+	background-color: grey;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.lampOn {
+	background-color: yellow;
+}
+
+.row {
+	display: flex;
+}
