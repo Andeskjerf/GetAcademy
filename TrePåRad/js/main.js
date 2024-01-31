@@ -1,5 +1,6 @@
 let SIZE = 3
 let chosenType = null
+let starts = null
 
 function horizontalWin() {
   let i = 0
@@ -99,12 +100,12 @@ function diagonalWin() {
 
 function hasWon(player) {
   if (verticalWin() || horizontalWin() || diagonalWin()) {
-		if (player) {
-			alert('Du vant')
-		} else {
-			alert('Du tapte')
-		}
-		location.reload()
+    if (player) {
+      alert('Du vant')
+    } else {
+      alert('Du tapte')
+    }
+    location.reload()
   }
 }
 
@@ -113,6 +114,14 @@ function clickBox(elem) {
     elem.innerHTML = chosenType.toUpperCase()
     hasWon(true)
     machineTurn()
+  }
+}
+
+function randomStarter() {
+  if (Math.random() >= 0.5) {
+    starts = 'x'
+  } else {
+    starts = 'o'
   }
 }
 
@@ -176,9 +185,14 @@ function view() {
   let app = document.getElementById('app')
   if (chosenType == null) {
     app.innerHTML = viewGameStart()
+    randomStarter()
   } else {
     app.innerHTML = `
 			${drawBoard()}
 		`
+    if (starts != chosenType && starts != null) {
+      machineTurn()
+    }
+    starts = null
   }
 }
