@@ -26,7 +26,7 @@ function horizontalWin() {
     }
     return isWin
   }
-	return false
+  return false
 }
 
 function verticalWin() {
@@ -56,7 +56,7 @@ function verticalWin() {
     }
     return isWin
   }
-	return false
+  return false
 }
 
 function diagonalWin() {
@@ -70,44 +70,49 @@ function diagonalWin() {
     matchesD.push(document.getElementById(i).innerHTML)
     i += SIZE + 1
   }
-	if (matchesD.length < 3) {
-		matchesD = []
-		i = (SIZE * SIZE) - SIZE
-		for (let y = 0; y < SIZE; y++) {
-			if (document.getElementById(i).innerHTML == '') {
-				i -= SIZE - 1
-				continue
-			}
-			matchesD.push(document.getElementById(i).innerHTML)
-			i -= SIZE - 1
-		}
-	}
-	if (matchesD.length < 3) {
-		return false
-	}
+  if (matchesD.length < 3) {
+    matchesD = []
+    i = SIZE * SIZE - SIZE
+    for (let y = 0; y < SIZE; y++) {
+      if (document.getElementById(i).innerHTML == '') {
+        i -= SIZE - 1
+        continue
+      }
+      matchesD.push(document.getElementById(i).innerHTML)
+      i -= SIZE - 1
+    }
+  }
+  if (matchesD.length < 3) {
+    return false
+  }
 
-	let first = matchesD[0]
-	let isWin = true
-	for (let j = 1; j < matchesD.length; j++) {
-		if (first != matchesD[j]) {
-			isWin = false
-			break
-		}
-	}
-	return isWin
+  let first = matchesD[0]
+  let isWin = true
+  for (let j = 1; j < matchesD.length; j++) {
+    if (first != matchesD[j]) {
+      isWin = false
+      break
+    }
+  }
+  return isWin
 }
 
-function hasWon() {
-	if (verticalWin() || horizontalWin() || diagonalWin()) {
-		console.log("yis wan")
-	}
+function hasWon(player) {
+  if (verticalWin() || horizontalWin() || diagonalWin()) {
+		if (player) {
+			alert('Du vant')
+		} else {
+			alert('Du tapte')
+		}
+		location.reload()
+  }
 }
 
 function clickBox(elem) {
   if (elem.innerHTML == '') {
     elem.innerHTML = chosenType.toUpperCase()
-    hasWon()
-    // machineTurn()
+    hasWon(true)
+    machineTurn()
   }
 }
 
@@ -132,7 +137,7 @@ function machineTurn() {
       elem = getRandomSpot()
     }
     elem.innerHTML = chosenType == 'x' ? 'O' : 'X'
-    hasWon()
+    hasWon(false)
   }
 }
 
