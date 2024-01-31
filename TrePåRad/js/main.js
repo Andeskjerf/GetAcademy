@@ -1,6 +1,7 @@
 let size = 3
 let chosenType = null
 let starts = null
+let selectedBoard = null
 
 function isThreeInRow(list) {
   for (let y = 0; y < list.length; y++) {
@@ -18,7 +19,11 @@ function isThreeInRow(list) {
   }
 }
 
-function checkAllWins() {
+function getTile(boardID, i) {
+	return document.getElementById(`b${boardID}_${i}`)
+}
+
+function checkAllWins(boardID) {
   let vertical = []
   let horizontal = []
   let diagonal = [[], []]
@@ -31,18 +36,18 @@ function checkAllWins() {
   let i = 0
   let j = 0
   for (let y = 0; y < size; y++) {
-    diagonal[0].push(document.getElementById(j).innerHTML)
+    diagonal[0].push(getTile(boardID, j).innerHTML)
     j += size + 1
     for (let x = 0; x < size; x++) {
-      horizontal[y].push(document.getElementById(i).innerHTML)
-      vertical[x].push(document.getElementById(i).innerHTML)
+      horizontal[y].push(getTile(boardID,i).innerHTML)
+      vertical[x].push(getTile(boardID,i).innerHTML)
       i++
     }
   }
 
   j = size * size - size
   for (let y = 0; y < size; y++) {
-    diagonal[1].push(document.getElementById(j).innerHTML)
+    diagonal[1].push(getTile(boardID,j).innerHTML)
     j -= size - 1
   }
 
@@ -51,8 +56,12 @@ function checkAllWins() {
   )
 }
 
-function hasWon(player) {
-  if (checkAllWins()) {
+function setBoard(id) {
+
+}
+
+function hasWon(player, boardID) {
+  if (checkAllWins(boardID)) {
     if (player) {
       alert('Du vant')
     } else {
@@ -105,6 +114,7 @@ function machineTurn() {
 
 function selectType(elem) {
   chosenType = elem.id
+	setBoard(elem.id)
   view()
 }
 
@@ -130,8 +140,8 @@ function drawUltimateBoard() {
     html += `<div class="row">`
     for (let x = 0; x < size; x++) {
       html += `
-				<div class="board">
-      		${drawBoard()}
+				<div id="b${i}" class="board">
+      		${drawBoard(i)}
       	</div>
 				`
       i++
@@ -141,13 +151,13 @@ function drawUltimateBoard() {
   return html
 }
 
-function drawBoard() {
+function drawBoard(id) {
   let html = ''
   let i = 0
   for (let y = 0; y < size; y++) {
     html += `<div class="row">`
     for (let x = 0; x < size; x++) {
-      html += `<div class="box" id="${i}" onclick="clickBox(this)"></div>`
+      html += `<div class="box" id="b${id}_${i}" onclick="clickBox(this)"></div>`
       i++
     }
     html += `</div>`
