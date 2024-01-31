@@ -1,4 +1,4 @@
-let SIZE = 3
+let size = 3
 let chosenType = null
 let starts = null
 
@@ -23,27 +23,27 @@ function checkAllWins() {
   let horizontal = []
   let diagonal = [[], []]
 
-  for (let x = 0; x < SIZE; x++) {
+  for (let x = 0; x < size; x++) {
     horizontal.push([])
     vertical.push([])
   }
 
   let i = 0
   let j = 0
-  for (let y = 0; y < SIZE; y++) {
+  for (let y = 0; y < size; y++) {
     diagonal[0].push(document.getElementById(j).innerHTML)
-    j += SIZE + 1
-    for (let x = 0; x < SIZE; x++) {
+    j += size + 1
+    for (let x = 0; x < size; x++) {
       horizontal[y].push(document.getElementById(i).innerHTML)
       vertical[x].push(document.getElementById(i).innerHTML)
       i++
     }
   }
 
-  j = SIZE * SIZE - SIZE
-  for (let y = 0; y < SIZE; y++) {
+  j = size * size - size
+  for (let y = 0; y < size; y++) {
     diagonal[1].push(document.getElementById(j).innerHTML)
-    j -= SIZE - 1
+    j -= size - 1
   }
 
   return (
@@ -79,7 +79,7 @@ function randomStarter() {
 }
 
 function vacantSpotsAvailable() {
-  for (let i = 0; i < SIZE * SIZE; i++) {
+  for (let i = 0; i < size * size; i++) {
     if (document.getElementById(i).innerHTML == '') {
       return true
     }
@@ -88,7 +88,7 @@ function vacantSpotsAvailable() {
 }
 
 function getRandomSpot() {
-  let i = Math.floor(Math.random() * SIZE * SIZE)
+  let i = Math.floor(Math.random() * size * size)
   return document.getElementById(i)
 }
 
@@ -108,12 +108,27 @@ function selectType(elem) {
   view()
 }
 
+function setBoardSize(elem) {
+  switch (elem.innerText) {
+    case '3x3':
+      size = 3
+      break
+    case '4x4':
+      size = 4
+      break
+    case '5x5':
+      size = 5
+      break
+  }
+  view()
+}
+
 function drawBoard() {
   let html = ''
   let i = 0
-  for (let y = 0; y < SIZE; y++) {
+  for (let y = 0; y < size; y++) {
     html += `<div class="row">`
-    for (let x = 0; x < SIZE; x++) {
+    for (let x = 0; x < size; x++) {
       html += `<div class="box" id="${i}" onclick="clickBox(this)"></div>`
       i++
     }
@@ -134,6 +149,22 @@ function viewGameStart() {
 	`
 }
 
+function drawButton(value) {
+  return `
+		<button class="button" onclick="setBoardSize(this)">${value}</button>
+	`
+}
+
+function drawButtons() {
+  return `
+		<div id="buttons">
+			${drawButton('3x3')}
+			${drawButton('4x4')}
+			${drawButton('5x5')}
+		</div>
+	`
+}
+
 function view() {
   let app = document.getElementById('app')
   if (chosenType == null) {
@@ -141,6 +172,7 @@ function view() {
     randomStarter()
   } else {
     app.innerHTML = `
+			${drawButtons()}
 			${drawBoard()}
 		`
     if (starts != chosenType && starts != null) {
