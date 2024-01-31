@@ -2,104 +2,61 @@ let SIZE = 3
 let chosenType = null
 let starts = null
 
-function horizontalWin() {
-  let i = 0
-  for (let y = 0; y < SIZE; y++) {
-    let matchesX = []
-    for (let x = 0; x < SIZE; x++) {
-      if (document.getElementById(i).innerHTML == '') {
-        i++
-        continue
+function isThreeInRow(list) {
+  for (let y = 0; y < list.length; y++) {
+    let content = list[y][0]
+    let valid = true
+    for (let x = 1; x < list[y].length; x++) {
+      if (content != list[y][x] || list[y][x] == '') {
+        valid = false
+        break
       }
-      matchesX.push(document.getElementById(i).innerHTML)
+    }
+    if (valid) {
+      return true
+    }
+  }
+}
+
+function checkAllWins() {
+  let vertical = []
+  let horizontal = []
+  let diagonal = [[], []]
+
+  for (let x = 0; x < SIZE; x++) {
+    horizontal.push([])
+    vertical.push([])
+  }
+
+  let i = 0
+  let j = 0
+  for (let y = 0; y < SIZE; y++) {
+    diagonal[0].push(document.getElementById(j).innerHTML)
+    j += SIZE + 1
+    for (let x = 0; x < SIZE; x++) {
+      horizontal[y].push(document.getElementById(i).innerHTML)
+      vertical[x].push(document.getElementById(i).innerHTML)
       i++
     }
-    if (matchesX.length < SIZE) {
-      continue
-    }
-    let first = matchesX[0]
-    let isWin = true
-    for (let j = 1; j < matchesX.length; j++) {
-      if (first != matchesX[j]) {
-        isWin = false
-        break
-      }
-    }
-    return isWin
   }
-  return false
-}
 
-function verticalWin() {
-  let i = 0
-  for (let x = 0; x < SIZE; x++) {
-    i = x
-    let matchesY = []
-    for (let y = 0; y < SIZE; y++) {
-      if (document.getElementById(i).innerHTML == '') {
-        i += SIZE
-        continue
-      }
-      matchesY.push(document.getElementById(i).innerHTML)
-      i += SIZE
-    }
-
-    if (matchesY.length < SIZE) {
-      continue
-    }
-    let first = matchesY[0]
-    let isWin = true
-    for (let j = 1; j < matchesY.length; j++) {
-      if (first != matchesY[j]) {
-        isWin = false
-        break
-      }
-    }
-    return isWin
-  }
-  return false
-}
-
-function diagonalWin() {
-  let i = 0
-  let matchesD = []
+  j = SIZE * SIZE - SIZE
   for (let y = 0; y < SIZE; y++) {
-    if (document.getElementById(i).innerHTML == '') {
-      i += SIZE + 1
-      continue
-    }
-    matchesD.push(document.getElementById(i).innerHTML)
-    i += SIZE + 1
-  }
-  if (matchesD.length < 3) {
-    matchesD = []
-    i = SIZE * SIZE - SIZE
-    for (let y = 0; y < SIZE; y++) {
-      if (document.getElementById(i).innerHTML == '') {
-        i -= SIZE - 1
-        continue
-      }
-      matchesD.push(document.getElementById(i).innerHTML)
-      i -= SIZE - 1
-    }
-  }
-  if (matchesD.length < 3) {
-    return false
+    diagonal[1].push(document.getElementById(j).innerHTML)
+    j -= SIZE - 1
   }
 
-  let first = matchesD[0]
-  let isWin = true
-  for (let j = 1; j < matchesD.length; j++) {
-    if (first != matchesD[j]) {
-      isWin = false
-      break
-    }
+  if (
+    isThreeInRow(horizontal) ||
+    isThreeInRow(vertical) ||
+    isThreeInRow(diagonal)
+  ) {
+    return true
   }
-  return isWin
 }
 
 function hasWon(player) {
-  if (verticalWin() || horizontalWin() || diagonalWin()) {
+  if (checkAllWins()) {
     if (player) {
       alert('Du vant')
     } else {
