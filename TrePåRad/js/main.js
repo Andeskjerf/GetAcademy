@@ -46,13 +46,9 @@ function checkAllWins() {
     j -= SIZE - 1
   }
 
-  if (
-    isThreeInRow(horizontal) ||
-    isThreeInRow(vertical) ||
-    isThreeInRow(diagonal)
-  ) {
-    return true
-  }
+  return (
+    isThreeInRow(horizontal) || isThreeInRow(vertical) || isThreeInRow(diagonal)
+  )
 }
 
 function hasWon(player) {
