@@ -1,38 +1,72 @@
 let SIZE = 3
 let chosenType = null
 
-function hasWon() {
-  let i = 0
+function horizontalWin() {
+	let i = 0
   for (let y = 0; y < SIZE; y++) {
-    let matches = []
+    let matchesX = []
     for (let x = 0; x < SIZE; x++) {
-			if (document.getElementById(i).innerHTML == '') {
-				continue
-			}
-      matches.push(document.getElementById(`${i}`).innerHTML)
+      if (document.getElementById(i).innerHTML == '') {
+        i++
+        continue
+      }
+      matchesX.push(document.getElementById(i).innerHTML)
       i++
     }
-		console.log(matches)
-		if (matches.length < SIZE) {
-			continue
-		}
-    let first = matches[0]
+    if (matchesX.length < SIZE) {
+      continue
+    }
+    let first = matchesX[0]
     let isWin = true
-    for (let j = 1; j < matches.length; j++) {
-      if (first != matches[j]) {
+    for (let j = 1; j < matchesX.length; j++) {
+      if (first != matchesX[j]) {
         isWin = false
         break
       }
     }
-    console.log(isWin)
+    return isWin
   }
+}
+
+function verticalWin() {
+	let i = 0
+	for (let x = 0; x < SIZE; x++) {
+		i = x
+		let matchesY = []
+		for (let y = 0; y < SIZE; y++) {
+			if (document.getElementById(i).innerHTML == '') {
+				i += SIZE
+				continue
+			}
+			matchesY.push(document.getElementById(i).innerHTML)
+			i += SIZE
+		}
+
+    if (matchesY.length < SIZE) {
+      continue
+    }
+    let first = matchesY[0]
+    let isWin = true
+    for (let j = 1; j < matchesY.length; j++) {
+      if (first != matchesY[j]) {
+        isWin = false
+        break
+      }
+    }
+    return isWin
+	}
+}
+
+function hasWon() {
+	let verticalWin = verticalWin()
+	let horizontalWin = horizontalWin()
 }
 
 function clickBox(elem) {
   if (elem.innerHTML == '') {
     elem.innerHTML = chosenType.toUpperCase()
-		hasWon()
-    machineTurn()
+    hasWon()
+    // machineTurn()
   }
 }
 
@@ -57,7 +91,7 @@ function machineTurn() {
       elem = getRandomSpot()
     }
     elem.innerHTML = chosenType == 'x' ? 'O' : 'X'
-		hasWon()
+    hasWon()
   }
 }
 
@@ -69,9 +103,9 @@ function selectType(elem) {
 function drawBoard() {
   let html = ''
   let i = 0
-  for (let x = 0; x < SIZE; x++) {
+  for (let y = 0; y < SIZE; y++) {
     html += `<div class="row">`
-    for (let y = 0; y < SIZE; y++) {
+    for (let x = 0; x < SIZE; x++) {
       html += `<div class="box" id="${i}" onclick="clickBox(this)"></div>`
       i++
     }

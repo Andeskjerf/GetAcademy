@@ -3,6 +3,12 @@
 	grid-template-columns: repeat(4, 30px);
 }
 
+#display {
+	height: 30px;
+	width: 20%;
+	border: 1px solid black;
+}
+
 .button {
 	display: flex;
 	justify-content: center;
