@@ -2,7 +2,7 @@ let SIZE = 3
 let chosenType = null
 
 function horizontalWin() {
-	let i = 0
+  let i = 0
   for (let y = 0; y < SIZE; y++) {
     let matchesX = []
     for (let x = 0; x < SIZE; x++) {
@@ -26,21 +26,22 @@ function horizontalWin() {
     }
     return isWin
   }
+	return false
 }
 
 function verticalWin() {
-	let i = 0
-	for (let x = 0; x < SIZE; x++) {
-		i = x
-		let matchesY = []
-		for (let y = 0; y < SIZE; y++) {
-			if (document.getElementById(i).innerHTML == '') {
-				i += SIZE
-				continue
-			}
-			matchesY.push(document.getElementById(i).innerHTML)
-			i += SIZE
-		}
+  let i = 0
+  for (let x = 0; x < SIZE; x++) {
+    i = x
+    let matchesY = []
+    for (let y = 0; y < SIZE; y++) {
+      if (document.getElementById(i).innerHTML == '') {
+        i += SIZE
+        continue
+      }
+      matchesY.push(document.getElementById(i).innerHTML)
+      i += SIZE
+    }
 
     if (matchesY.length < SIZE) {
       continue
@@ -54,12 +55,52 @@ function verticalWin() {
       }
     }
     return isWin
+  }
+	return false
+}
+
+function diagonalWin() {
+  let i = 0
+  let matchesD = []
+  for (let y = 0; y < SIZE; y++) {
+    if (document.getElementById(i).innerHTML == '') {
+      i += SIZE + 1
+      continue
+    }
+    matchesD.push(document.getElementById(i).innerHTML)
+    i += SIZE + 1
+  }
+	if (matchesD.length < 3) {
+		matchesD = []
+		i = (SIZE * SIZE) - SIZE
+		for (let y = 0; y < SIZE; y++) {
+			if (document.getElementById(i).innerHTML == '') {
+				i -= SIZE - 1
+				continue
+			}
+			matchesD.push(document.getElementById(i).innerHTML)
+			i -= SIZE - 1
+		}
 	}
+	if (matchesD.length < 3) {
+		return false
+	}
+
+	let first = matchesD[0]
+	let isWin = true
+	for (let j = 1; j < matchesD.length; j++) {
+		if (first != matchesD[j]) {
+			isWin = false
+			break
+		}
+	}
+	return isWin
 }
 
 function hasWon() {
-	let verticalWin = verticalWin()
-	let horizontalWin = horizontalWin()
+	if (verticalWin() || horizontalWin() || diagonalWin()) {
+		console.log("yis wan")
+	}
 }
 
 function clickBox(elem) {
