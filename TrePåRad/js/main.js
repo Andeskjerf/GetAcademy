@@ -123,6 +123,22 @@ function setBoardSize(elem) {
   view()
 }
 
+function drawUltimateBoard() {
+  let html = ''
+  let i = 0
+  for (let y = 0; y < size; y++) {
+    html += `<div class="row">`
+    for (let x = 0; x < size; x++) {
+      html += `<div class="board">`
+      html += drawBoard()
+      html += `</div>`
+      i++
+    }
+    html += `</div>`
+  }
+  return html
+}
+
 function drawBoard() {
   let html = ''
   let i = 0
@@ -173,7 +189,9 @@ function view() {
   } else {
     app.innerHTML = `
 			${drawButtons()}
-			${drawBoard()}
+			<div id="board">
+				${drawUltimateBoard()}
+			</div>
 		`
     if (starts != chosenType && starts != null) {
       machineTurn()
