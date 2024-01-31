@@ -129,9 +129,11 @@ function drawUltimateBoard() {
   for (let y = 0; y < size; y++) {
     html += `<div class="row">`
     for (let x = 0; x < size; x++) {
-      html += `<div class="board">`
-      html += drawBoard()
-      html += `</div>`
+      html += `
+				<div class="board">
+      		${drawBoard()}
+      	</div>
+				`
       i++
     }
     html += `</div>`
