@@ -74,7 +74,10 @@ function hasWon(player, boardID) {
     } else {
       alert('Du tapte')
     }
-    location.reload()
+    selectedBoard = null
+  } else if (!vacantSpotsAvailable(boardID)) {
+    alert('Uavgjort!')
+    selectedBoard = null
   }
 }
 
