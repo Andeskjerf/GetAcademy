@@ -20,7 +20,7 @@ function isThreeInRow(list) {
 }
 
 function getTile(boardID, i) {
-	return document.getElementById(`b${boardID}_${i}`)
+  return document.getElementById(`b${boardID}_${i}`)
 }
 
 function checkAllWins(boardID) {
@@ -39,15 +39,15 @@ function checkAllWins(boardID) {
     diagonal[0].push(getTile(boardID, j).innerHTML)
     j += size + 1
     for (let x = 0; x < size; x++) {
-      horizontal[y].push(getTile(boardID,i).innerHTML)
-      vertical[x].push(getTile(boardID,i).innerHTML)
+      horizontal[y].push(getTile(boardID, i).innerHTML)
+      vertical[x].push(getTile(boardID, i).innerHTML)
       i++
     }
   }
 
   j = size * size - size
   for (let y = 0; y < size; y++) {
-    diagonal[1].push(getTile(boardID,j).innerHTML)
+    diagonal[1].push(getTile(boardID, j).innerHTML)
     j -= size - 1
   }
 
@@ -56,8 +56,15 @@ function checkAllWins(boardID) {
   )
 }
 
-function setBoard(id) {
+function getBoardID(id) {
+  const regex = /(?<=b)(.*?)(?=_)/
+  return regex.exec(id)[0]
+}
 
+function setBoard(id) {
+  if (selectedBoard == null) {
+    selectedBoard = id
+  }
 }
 
 function hasWon(player, boardID) {
@@ -72,9 +79,10 @@ function hasWon(player, boardID) {
 }
 
 function clickBox(elem) {
-  if (elem.innerHTML == '') {
+  setBoard(getBoardID(elem.id))
+  if (elem.innerHTML == '' && selectedBoard == getBoardID(elem.id)) {
     elem.innerHTML = chosenType.toUpperCase()
-    hasWon(true)
+    hasWon(true, selectedBoard)
     machineTurn()
   }
 }
@@ -87,9 +95,9 @@ function randomStarter() {
   }
 }
 
-function vacantSpotsAvailable() {
+function vacantSpotsAvailable(boardID) {
   for (let i = 0; i < size * size; i++) {
-    if (document.getElementById(i).innerHTML == '') {
+    if (getTile(boardID, i).innerHTML == '') {
       return true
     }
   }
@@ -98,23 +106,28 @@ function vacantSpotsAvailable() {
 
 function getRandomSpot() {
   let i = Math.floor(Math.random() * size * size)
-  return document.getElementById(i)
+  setBoard(i)
+  return getTile(selectedBoard, i)
+}
+
+function getRandomBoard() {
+  return Math.floor(Math.random() * size * size)
 }
 
 function machineTurn() {
-  if (vacantSpotsAvailable()) {
+  setBoard(getRandomBoard())
+  if (vacantSpotsAvailable(selectedBoard)) {
     let elem = getRandomSpot()
     while (elem.innerHTML != '') {
       elem = getRandomSpot()
     }
     elem.innerHTML = chosenType == 'x' ? 'O' : 'X'
-    hasWon(false)
+    hasWon(false, selectedBoard)
   }
 }
 
 function selectType(elem) {
   chosenType = elem.id
-	setBoard(elem.id)
   view()
 }
 
