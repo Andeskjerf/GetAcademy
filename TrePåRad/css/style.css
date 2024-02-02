@@ -51,8 +51,17 @@
 
 .board {
 	border: 1px solid black;
+	position: relative;;
 }
 
 #buttons {
 	display: grid;
+}
+
+.boardWin {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 200px;
+	transform: translate(-50%, -50%);
 }

@@ -118,11 +118,17 @@ function setBoard(id) {
 
 function hasWon(player, boardID) {
   if (checkAllWins(boardID)) {
+    let board = document.getElementById(`b${boardID}`)
+    let elemLetter = document.createElement('div')
+    elemLetter.className = 'boardWin'
     if (player) {
       completedBoards[boardID] = chosenType
+      elemLetter.innerText = chosenType
     } else {
-      completedBoards[boardID] = 'x' ? chosenType == 'o' : 'o'
+      completedBoards[boardID] = chosenType == 'o' ? 'x' : 'o'
+      elemLetter.innerText = completedBoards[boardID]
     }
+    board.appendChild(elemLetter)
     selectedBoard = null
   } else if (!vacantSpotsAvailable(boardID)) {
     selectedBoard = null
