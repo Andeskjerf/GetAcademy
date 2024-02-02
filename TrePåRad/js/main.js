@@ -166,6 +166,7 @@ function setBoardSize(elem) {
       size = 5
       break
   }
+  selectedBoard = null
   view()
 }
 
