@@ -63,6 +63,9 @@ function getBoardID(id) {
 }
 
 function setBoard(id) {
+  if (id == null) {
+    return null
+  }
   if (selectedBoard == null) {
     selectedBoard = id
   }
@@ -71,13 +74,14 @@ function setBoard(id) {
 function hasWon(player, boardID) {
   if (checkAllWins(boardID)) {
     if (player) {
+      completedBoards[boardID] = chosenType
     } else {
+      completedBoards[boardID] = 'x' ? chosenType == 'o' : 'o'
     }
     selectedBoard = null
-    completedBoards.push(boardID)
   } else if (!vacantSpotsAvailable(boardID)) {
     selectedBoard = null
-    completedBoards.push(boardID)
+    completedBoards[boardID] = '-'
   }
 }
 
@@ -107,6 +111,15 @@ function vacantSpotsAvailable(boardID) {
   return false
 }
 
+function vacantBoardAvailable() {
+  for (let i = 0; i < size * size; i++) {
+    if (completedBoards[i] == undefined) {
+      return true
+    }
+  }
+  return false
+}
+
 function getRandomSpot() {
   let i = Math.floor(Math.random() * size * size)
   setBoard(i)
@@ -115,10 +128,10 @@ function getRandomSpot() {
 
 function getRandomBoard() {
   let i = Math.floor(Math.random() * size * size)
-  if (completedBoards.length == size * size) {
+  if (!vacantBoardAvailable()) {
     return null
   }
-  while (completedBoards.includes(i)) {
+  while (completedBoards[i] != undefined) {
     i = Math.floor(Math.random() * size * size)
   }
   return i
@@ -228,6 +241,7 @@ function view() {
 				${drawUltimateBoard()}
 			</div>
 		`
+    completedBoards = new Array(size * size)
     if (starts != chosenType && starts != null) {
       machineTurn()
     }
