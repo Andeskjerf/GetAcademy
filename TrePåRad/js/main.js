@@ -2,6 +2,7 @@ let size = 3
 let chosenType = null
 let starts = null
 let selectedBoard = null
+let completedBoards = []
 
 function isThreeInRow(list) {
   for (let y = 0; y < list.length; y++) {
@@ -58,7 +59,7 @@ function checkAllWins(boardID) {
 
 function getBoardID(id) {
   const regex = /(?<=b)(.*?)(?=_)/
-  return regex.exec(id)[0]
+  return parseInt(regex.exec(id)[0])
 }
 
 function setBoard(id) {
@@ -70,14 +71,13 @@ function setBoard(id) {
 function hasWon(player, boardID) {
   if (checkAllWins(boardID)) {
     if (player) {
-      alert('Du vant')
     } else {
-      alert('Du tapte')
     }
     selectedBoard = null
+    completedBoards.push(boardID)
   } else if (!vacantSpotsAvailable(boardID)) {
-    alert('Uavgjort!')
     selectedBoard = null
+    completedBoards.push(boardID)
   }
 }
 
@@ -114,7 +114,14 @@ function getRandomSpot() {
 }
 
 function getRandomBoard() {
-  return Math.floor(Math.random() * size * size)
+  let i = Math.floor(Math.random() * size * size)
+  if (completedBoards.length == size * size) {
+    return null
+  }
+  while (completedBoards.includes(i)) {
+    i = Math.floor(Math.random() * size * size)
+  }
+  return i
 }
 
 function machineTurn() {
