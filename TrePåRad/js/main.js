@@ -3,18 +3,28 @@ let chosenType = null
 let starts = null
 let selectedBoard = null
 let completedBoards = []
+let winningType = null
 
 function isThreeInRow(list) {
   for (let y = 0; y < list.length; y++) {
     let content = list[y][0]
     let valid = true
     for (let x = 1; x < list[y].length; x++) {
-      if (content != list[y][x] || list[y][x] == '') {
+      if (
+        content != list[y][x] ||
+        list[y][x] == '' ||
+        list[y][x] == '-' ||
+        list[y][x] == undefined
+      ) {
         valid = false
         break
       }
     }
     if (valid) {
+      // FIXME: this is a hack!!
+      // we set winning type to check the ultimate win
+      // ideally, this value should NOT be global and should be returned instead, somehow
+      winningType = content
       return true
     }
   }
@@ -57,6 +67,41 @@ function checkAllWins(boardID) {
   )
 }
 
+// FIXME: this is essentially the above function, just repeated
+// for the ultimate board :( could be done better!
+function checkUltimateWin() {
+  let vertical = []
+  let horizontal = []
+  let diagonal = [[], []]
+
+  for (let x = 0; x < size; x++) {
+    horizontal.push([])
+    vertical.push([])
+  }
+
+  let i = 0
+  let j = 0
+  for (let y = 0; y < size; y++) {
+    diagonal[0].push(completedBoards[j])
+    j += size + 1
+    for (let x = 0; x < size; x++) {
+      horizontal[y].push(completedBoards[i])
+      vertical[x].push(completedBoards[i])
+      i++
+    }
+  }
+
+  j = size * size - size
+  for (let y = 0; y < size; y++) {
+    diagonal[1].push(completedBoards[j])
+    j -= size - 1
+  }
+
+  return (
+    isThreeInRow(horizontal) || isThreeInRow(vertical) || isThreeInRow(diagonal)
+  )
+}
+
 function getBoardID(id) {
   const regex = /(?<=b)(.*?)(?=_)/
   return parseInt(regex.exec(id)[0])
@@ -82,6 +127,14 @@ function hasWon(player, boardID) {
   } else if (!vacantSpotsAvailable(boardID)) {
     selectedBoard = null
     completedBoards[boardID] = '-'
+  }
+  if (checkUltimateWin()) {
+    if (winningType == chosenType) {
+      alert('Du vant!')
+    } else {
+      alert('Du tapte!')
+    }
+    location.reload()
   }
 }
 
