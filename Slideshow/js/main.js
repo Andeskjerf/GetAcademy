@@ -1,5 +1,7 @@
+const timer = 5000
 const totalImages = 3
 let currentSlide = 0
+let imageTapped = false
 
 function updateSlides() {
   let images = document.querySelectorAll('#carousel img')
@@ -23,13 +25,14 @@ function imageClicked(elem) {
   let x = elem.layerX
 
   if (x < imgWidth / 2) {
-    buttonPressed('Previous')
+    updateIndex('Previous')
   } else {
-    buttonPressed('Next')
+    updateIndex('Next')
   }
+  imageTapped = true
 }
 
-function buttonPressed(text) {
+function updateIndex(text) {
   switch (text) {
     case 'Previous':
       currentSlide--
@@ -45,6 +48,14 @@ function buttonPressed(text) {
       break
   }
   updateSlides()
+}
+
+function automaticSlide() {
+  if (imageTapped) {
+    imageTapped = false
+    return
+  }
+  updateIndex('Next')
 }
 
 function drawCarousel() {
@@ -66,4 +77,5 @@ function view() {
 		</div>
 	`
   updateSlides()
+  setInterval(automaticSlide, timer)
 }
