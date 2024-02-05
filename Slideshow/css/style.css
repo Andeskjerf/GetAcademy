@@ -1,0 +1,14 @@
+#carouselContainer {
+	width: 80%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+#carousel {
+	display: flex;
+	transition: transform 0.5s ease-in-out;
+}
+
+#carousel > img {
+	width: 100%;
+}
