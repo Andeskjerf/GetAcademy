@@ -6,11 +6,26 @@ function updateSlides() {
   for (let i = 0; i < images.length; i++) {
     images[i].classList.remove('toTheLeft')
     images[i].classList.remove('toTheRight')
+    images[i].removeEventListener('click', imageClicked)
+
     if (i < currentSlide) {
       images[i].classList.add('toTheLeft')
     } else if (i > currentSlide) {
       images[i].classList.add('toTheRight')
+    } else {
+      images[i].addEventListener('click', imageClicked)
     }
+  }
+}
+
+function imageClicked(elem) {
+  let imgWidth = elem.target.clientWidth
+  let x = elem.layerX
+
+  if (x < imgWidth / 2) {
+    buttonPressed('Previous')
+  } else {
+    buttonPressed('Next')
   }
 }
 
@@ -43,28 +58,12 @@ function drawCarousel() {
   return html
 }
 
-function drawButton(text) {
-  return `
-		<button class="button" onclick="buttonPressed('${text}')">${text}</button>
-	`
-}
-
-function drawButtons() {
-  return `
-		<div id="buttons">
-			${drawButton('Previous')}
-			${drawButton('Next')}
-		</div>
-	`
-}
-
 function view() {
   let app = document.getElementById('app')
   app.innerHTML = `
 		<div id="carouselContainer">
 			${drawCarousel()}
 		</div>
-		${drawButtons()}
 	`
   updateSlides()
 }
