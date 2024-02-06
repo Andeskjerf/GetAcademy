@@ -1,3 +1,7 @@
+function drawWeatherCard() {
+
+}
+
 function drawBody() {
   if (posFound) {
     return `<p>Lokasjon funnet. Doxxing iverksatt</p>`
