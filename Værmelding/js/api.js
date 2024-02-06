@@ -79,6 +79,4 @@ function getWeatherForTimes(data) {
       })
     }
   }
-
-  console.log(firstHour, sixthHour, nextDay)
 }
