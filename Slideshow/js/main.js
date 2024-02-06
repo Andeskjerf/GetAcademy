@@ -1,23 +1,52 @@
 const timer = 5000
 const totalImages = 3
 let currentSlide = 0
+let oldSlide = 0
 let imageTapped = false
 
+// TODO: a bit messy!!
 function updateSlides() {
-  let images = document.querySelectorAll('#carousel img')
-  for (let i = 0; i < images.length; i++) {
-    images[i].classList.remove('toTheLeft')
-    images[i].classList.remove('toTheRight')
-    images[i].removeEventListener('click', imageClicked)
-
-    if (i < currentSlide) {
-      images[i].classList.add('toTheLeft')
-    } else if (i > currentSlide) {
-      images[i].classList.add('toTheRight')
-    } else {
-      images[i].addEventListener('click', imageClicked)
-    }
+  let carousel = document.getElementById('carousel')
+  if (currentSlide == oldSlide) {
+    let current = document.createElement('img')
+    current.setAttribute('src', `assets/${currentSlide}.jpg`)
+    current.setAttribute('id', 'current')
+    current.onclick = imageClicked
+    carousel.append(current)
+    return
   }
+
+  let current = document.getElementById('current')
+  current.setAttribute('id', 'previous')
+  let newSlide = document.createElement('img')
+  newSlide.setAttribute('src', `assets/${currentSlide}.jpg`)
+  newSlide.setAttribute('id', 'current')
+  newSlide.onclick = imageClicked
+
+  if (currentSlide == 0 && oldSlide == totalImages - 1) {
+    newSlide.classList.add('toTheRight')
+    current.classList.add('toTheLeft')
+  } else if (currentSlide == totalImages - 1 && oldSlide == 0) {
+    newSlide.classList.add('toTheLeft')
+    current.classList.add('toTheRight')
+  } else if (currentSlide < oldSlide) {
+    current.classList.add('toTheRight')
+    newSlide.classList.add('toTheLeft')
+  } else if (currentSlide > oldSlide) {
+    current.classList.add('toTheLeft')
+    newSlide.classList.add('toTheRight')
+  }
+
+  carousel.append(newSlide)
+
+  setTimeout(() => {
+    newSlide.classList.remove('toTheLeft')
+    newSlide.classList.remove('toTheRight')
+  })
+
+  setTimeout(() => {
+    carousel.removeChild(current)
+  }, 2500)
 }
 
 function imageClicked(elem) {
@@ -33,6 +62,7 @@ function imageClicked(elem) {
 }
 
 function updateIndex(text) {
+  oldSlide = currentSlide
   switch (text) {
     case 'Previous':
       currentSlide--
@@ -59,14 +89,7 @@ function automaticSlide() {
 }
 
 function drawCarousel() {
-  let html = `<div id="carousel">`
-  for (let i = 0; i < totalImages; i++) {
-    html += `
-			<img src="assets/${i}.jpg" />
-		`
-  }
-  html += '</div>'
-  return html
+  return `<div id="carousel"></div>`
 }
 
 function view() {
