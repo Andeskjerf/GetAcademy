@@ -1,0 +1,11 @@
+#inputContainer {
+	display: flex;
+}
+
+.active {
+	background-color: lightblue;
+}
+
+.input {
+	display: grid;
+}
