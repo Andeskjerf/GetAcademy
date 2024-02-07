@@ -2,7 +2,7 @@ document.body.addEventListener('mousemove', mouseMoved)
 
 let pos
 let onDot = false
-let distancePercentage = 100
+let distancePercentage = 0
 
 function getDistance(x1, y1, x2, y2) {
   let xDistance = x2 - x1
