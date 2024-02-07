@@ -1,3 +1,9 @@
+function getDirection(degrees) {
+  const directions = ['NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N']
+  let index = Math.round((degrees / 45) % 8)
+  return directions[index]
+}
+
 function drawWeatherCard(data) {
   return `
 		<div class="weatherCard">
@@ -5,7 +11,7 @@ function drawWeatherCard(data) {
 			<p>Temp: ${data.details.air_temperature}C</p>
 			<p>Fuktighet: ${data.details.relative_humidity}%</p>
 			<p>Vind: ${data.details.wind_speed} m/s</p>
-			<p>Vind retning: ${data.details.wind_from_direction}°</p>
+			<p>Vind retning: ${data.details.wind_from_direction}° ${getDirection(data.details.wind_from_direction)}</p>
 		</div>
 	`
 }
