@@ -16,9 +16,10 @@ navigator.geolocation.getCurrentPosition(
 function geolocationSuccess(pos) {
   let lat = pos.coords.latitude
   let long = pos.coords.longitude
+  let method = 'complete'
 
   fetch(
-    `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${long}`,
+    `https://api.met.no/weatherapi/locationforecast/2.0/${method}?lat=${lat}&lon=${long}`,
   )
     .then((response) => response.json())
     .then((data) => {
