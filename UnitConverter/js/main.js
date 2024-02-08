@@ -16,7 +16,6 @@ const TYPES = {
   Volume: [],
   Area: 'Area',
   Temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
-  Time: 'Time',
 }
 
 const LENGTH_FACTORS = {
@@ -120,9 +119,6 @@ function convertUnit(value) {
       break
     case 'Temperature':
       updateAnswer(convertTemperature(value))
-      break
-    case 'Time':
-      updateAnswer(convertTime(value))
       break
     default:
       console.log('Error! Chosen type is invalid!')
