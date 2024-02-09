@@ -16,6 +16,19 @@ const TYPES = {
   Volume: [],
   Area: 'Area',
   Temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
+  Time: [
+    'Picosecond',
+    'Nanosecond',
+    'Microsecond',
+    'Millisecond',
+    'Second',
+    'Minute',
+    'Hour',
+    'Day',
+    'Week',
+		'Month',
+    'Year',
+  ],
 }
 
 const LENGTH_FACTORS = {
@@ -39,6 +52,20 @@ const WEIGHT_FACTORS = {
   Milligram: 0.001,
   Ounce: 28.3495,
   Pound: 453.592,
+}
+
+const TIME_FACTORS = {
+	Picosecond: 1e-12,
+	Nanosecond: 1e-9,
+	Microsecond: 1e-6,
+	Millisecond: 0.001,
+	Second: 1,
+	Minute: 60,
+	Hour: 3600,
+	Day: 86400,
+	Week: 604800,
+	Month: 2592000,
+	Year: 31536000,
 }
 
 let chosenType = Object.keys(TYPES)[0]
@@ -69,6 +96,12 @@ function convertWeight(value) {
   const fromFactor = WEIGHT_FACTORS[unitLeft]
   const toFactor = WEIGHT_FACTORS[unitRight]
   return (value * fromFactor) / toFactor
+}
+
+function convertTime(value) {
+	const fromFactor = TIME_FACTORS[unitLeft]
+	const toFactor = TIME_FACTORS[unitRight]
+	return (value * fromFactor) / toFactor
 }
 
 function convertTemperature(value) {
@@ -111,6 +144,9 @@ function convertUnit(value) {
     case 'Weight':
       updateAnswer(convertWeight(value))
       break
+		case 'Time':
+			updateAnswer(convertTime(value))
+			break
     case 'Volume':
       updateAnswer(convertVolume(value))
       break
