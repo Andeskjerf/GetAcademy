@@ -128,7 +128,6 @@ function convertTemperature(value) {
 
 function convertUnit(value) {
   if (unitLeft == undefined || unitRight == undefined) {
-    alert('Error! Chosen units are invalid!')
     return
   }
   console.log(value)
