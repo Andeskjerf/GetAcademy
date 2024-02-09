@@ -13,17 +13,31 @@ const LENGTH_FACTORS = {
 }
 
 const AREA_FACTORS = {
-	Kilometer: 1000000,
-	Meter: 1,
-	Centimeter: 0.0001,
-	Millimeter: 1.0e-6,
-	Micrometer: 1e-12,
-	Hectare: 10000,
-	Mile: 2589988.110336,
-	Yard: 0.83612736,
-	Feet: 0.09290304,
-	Inches: 0.00064516,
-	Acre: 4046.8564224
+  Kilometer: 1000000,
+  Meter: 1,
+  Centimeter: 0.0001,
+  Millimeter: 1.0e-6,
+  Micrometer: 1e-12,
+  Hectare: 10000,
+  Mile: 2589988.110336,
+  Yard: 0.83612736,
+  Feet: 0.09290304,
+  Inches: 0.00064516,
+  Acre: 4046.8564224,
+}
+
+const VOLUME_FACTORS = {
+  Kilometer: 1000000,
+  Meter: 1,
+  Centimeter: 1.0e-6,
+  Millimeter: 1.0e-9,
+  Liter: 0.001,
+  Milliliter: 1.0e-6,
+  Gallon: 0.0037854118,
+  Pint: 0.0004731765,
+  Cup: 0.0002365882,
+  Quart: 0.0009463529,
+  FluidOunce: 2.95735e-5,
 }
 
 const WEIGHT_FACTORS = {
@@ -36,23 +50,23 @@ const WEIGHT_FACTORS = {
 }
 
 const TIME_FACTORS = {
-	Picosecond: 1e-12,
-	Nanosecond: 1e-9,
-	Microsecond: 1e-6,
-	Millisecond: 0.001,
-	Second: 1,
-	Minute: 60,
-	Hour: 3600,
-	Day: 86400,
-	Week: 604800,
-	Month: 2592000,
-	Year: 31536000,
+  Picosecond: 1e-12,
+  Nanosecond: 1e-9,
+  Microsecond: 1e-6,
+  Millisecond: 0.001,
+  Second: 1,
+  Minute: 60,
+  Hour: 3600,
+  Day: 86400,
+  Week: 604800,
+  Month: 2592000,
+  Year: 31536000,
 }
 
 const TYPES = {
   Length: Object.keys(LENGTH_FACTORS),
   Weight: Object.keys(WEIGHT_FACTORS),
-  Volume: [],
+  Volume: Object.keys(VOLUME_FACTORS),
   Area: Object.keys(AREA_FACTORS),
   Temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
   Time: Object.keys(TIME_FACTORS),
@@ -95,9 +109,15 @@ function convertArea(value) {
 }
 
 function convertTime(value) {
-	const fromFactor = TIME_FACTORS[unitLeft]
-	const toFactor = TIME_FACTORS[unitRight]
-	return (value * fromFactor) / toFactor
+  const fromFactor = TIME_FACTORS[unitLeft]
+  const toFactor = TIME_FACTORS[unitRight]
+  return (value * fromFactor) / toFactor
+}
+
+function convertVolume(value) {
+  const fromFactor = VOLUME_FACTORS[unitLeft]
+  const toFactor = VOLUME_FACTORS[unitRight]
+  return (value * fromFactor) / toFactor
 }
 
 function convertTemperature(value) {
@@ -139,9 +159,9 @@ function convertUnit(value) {
     case 'Weight':
       updateAnswer(convertWeight(value))
       break
-		case 'Time':
-			updateAnswer(convertTime(value))
-			break
+    case 'Time':
+      updateAnswer(convertTime(value))
+      break
     case 'Volume':
       updateAnswer(convertVolume(value))
       break
