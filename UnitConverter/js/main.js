@@ -1,36 +1,3 @@
-const TYPES = {
-  Length: [
-    'Meter',
-    'Kilometer',
-    'Centimeter',
-    'Millimeter',
-    'Micrometer',
-    'Nanometer',
-    'Inch',
-    'Feet',
-    'Yard',
-    'Mile',
-    'LightYear',
-  ],
-  Weight: ['Ton', 'Kilogram', 'Gram', 'Milligram', 'Ounce', 'Pound'],
-  Volume: [],
-  Area: 'Area',
-  Temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
-  Time: [
-    'Picosecond',
-    'Nanosecond',
-    'Microsecond',
-    'Millisecond',
-    'Second',
-    'Minute',
-    'Hour',
-    'Day',
-    'Week',
-		'Month',
-    'Year',
-  ],
-}
-
 const LENGTH_FACTORS = {
   Nanometer: 1e-9,
   Micrometer: 1e-6,
@@ -43,6 +10,20 @@ const LENGTH_FACTORS = {
   Yard: 914.4,
   Mile: 1609344,
   LightYear: 9.4607e18,
+}
+
+const AREA_FACTORS = {
+	Kilometer: 1000000,
+	Meter: 1,
+	Centimeter: 0.0001,
+	Millimeter: 1.0e-6,
+	Micrometer: 1e-12,
+	Hectare: 10000,
+	Mile: 2589988.110336,
+	Yard: 0.83612736,
+	Feet: 0.09290304,
+	Inches: 0.00064516,
+	Acre: 4046.8564224
 }
 
 const WEIGHT_FACTORS = {
@@ -66,6 +47,15 @@ const TIME_FACTORS = {
 	Week: 604800,
 	Month: 2592000,
 	Year: 31536000,
+}
+
+const TYPES = {
+  Length: Object.keys(LENGTH_FACTORS),
+  Weight: Object.keys(WEIGHT_FACTORS),
+  Volume: [],
+  Area: Object.keys(AREA_FACTORS),
+  Temperature: ['Celsius', 'Fahrenheit', 'Kelvin'],
+  Time: Object.keys(TIME_FACTORS),
 }
 
 let chosenType = Object.keys(TYPES)[0]
@@ -95,6 +85,12 @@ function convertLength(value) {
 function convertWeight(value) {
   const fromFactor = WEIGHT_FACTORS[unitLeft]
   const toFactor = WEIGHT_FACTORS[unitRight]
+  return (value * fromFactor) / toFactor
+}
+
+function convertArea(value) {
+  const fromFactor = AREA_FACTORS[unitLeft]
+  const toFactor = AREA_FACTORS[unitRight]
   return (value * fromFactor) / toFactor
 }
 
