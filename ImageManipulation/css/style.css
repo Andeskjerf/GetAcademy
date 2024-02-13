@@ -1,6 +1,7 @@
-#userContainer {
-}
-
 #userImage {
 	width: 80%;
+}
+
+#scaleCheckbox {
+	display: inline-flex;
 }
