@@ -8,7 +8,6 @@ function setResolution() {
   width = imgDom.naturalWidth
   height = imgDom.naturalHeight
   aspectRatio = width / height
-  console.log(aspectRatio)
 
   let wInput = document.getElementById('width_input')
   let hInput = document.getElementById('height_input')
@@ -21,6 +20,18 @@ function setImage(file) {
   view()
   // allow DOM to update before getting image resolution
   setTimeout(setResolution, 10)
+}
+
+function downloadImage() {
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+
+  let imgDom = document.getElementById('userImage')
+  ctx.drawImage(imgDom, 0, 0, width, height)
+  const resizedImage = canvas.toDataURL('image/png')
+  window.open(resizedImage)
 }
 
 function updateScaleInput(elem) {
@@ -37,23 +48,35 @@ function updateScaleInput(elem) {
 
   hInput.value = height
   wInput.value = width
+
+  view()
 }
 
 function toggleAspectRatio() {
   maintainRatio = !maintainRatio
+  setResolution()
+  view()
+}
+
+function drawButtons() {
+  return `
+		<div id="buttons">	
+			<button onclick="downloadImage()">Last ned skalert</button>
+		</div>
+	`
 }
 
 function drawUserImage() {
   if (uploadedImage == null) return '<p>Ingen bilder lastet opp...</p>'
 
   return `
-		<img id="userImage" src="${URL.createObjectURL(uploadedImage)}" />
-	`
+  	<img id="userImage" width="${width}" height="${height}" src="${URL.createObjectURL(uploadedImage)}" />
+  `
 }
 
 function drawImageUpload() {
   return `
-		<input type="file" id="imageUpload" onchange="setImage(this.files[0])" />
+		<input type="file" accept="image/*" id="imageUpload" onchange="setImage(this.files[0])" />
 	`
 }
 
@@ -64,7 +87,7 @@ function drawImageScaleInput(id, value) {
 function drawScaleCheckbox() {
   return `
 		<div id="scaleCheckbox">
-			<input type="checkbox" value="${maintainRatio}" onclick="toggleAspectRatio()" />
+			<input type="checkbox" ${maintainRatio ? 'checked="true"' : ''} onclick="toggleAspectRatio()" />
 			<p>behold størrelesforholdet?</p>
 		</div>
 	`
@@ -92,8 +115,8 @@ function viewImageManipulation() {
 function view() {
   let app = document.getElementById('app')
   app.innerHTML = `
-		${viewImageManipulation()}
-		<!-- ${uploadedImage == null ? '' : viewImageManipulation()} -->
+		${uploadedImage == null ? '' : drawButtons()}
+		${uploadedImage == null ? '' : viewImageManipulation()}
 		${viewUserInput()}
 	`
 }
